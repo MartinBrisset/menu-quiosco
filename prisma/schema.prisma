@@ -32,7 +32,7 @@ model Orden {
   fecha       String
   total       Float
   pedido      Json
-  estado      Int?
+  estado      Int? @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

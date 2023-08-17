@@ -94,7 +94,34 @@ const QuioscoProvider = ({ children }) => {
     
     const confirmarPedido = async (e) => {
         e.preventDefault()
-        console.log(` hola`)
+        try {
+            const {data} = await axios.post('/api/ordenes',{
+                pedido: carrito,
+                nombre,
+                total: totalPedido,
+                fecha: Date.now().toString()
+            })
+            //si la orden se crea, reiniciamos state
+            if (data) {
+                setCategoriaActual(categorias[0])
+                setCarrito([])
+                setNombre('')
+                setTotalPedido(0)
+
+                toast.success('Pedido confirmado',{
+                    position: "top-center",
+                    theme: "colored",
+                    pauseOnHover: false,
+                    autoClose: 1500
+                });
+
+                setTimeout(() => {
+                    router.push('/')
+                }, 2000);
+            }
+        } catch (error) {
+            console.log(error)
+        }
     } 
 
     useEffect(() => {
